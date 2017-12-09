@@ -1,3 +1,6 @@
+package ch.omni.aoc.year2017
+
+import readFile
 import java.util.*
 
 object Day9 {

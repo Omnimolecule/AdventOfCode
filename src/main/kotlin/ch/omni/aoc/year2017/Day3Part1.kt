@@ -1,3 +1,5 @@
+package ch.omni.aoc.year2017
+
 val input3 = 361527
 fun main(args: Array<String>) {
     var round = Math.ceil(Math.sqrt(input3.toDouble()))
@@ -29,7 +31,7 @@ fun main(args: Array<String>) {
         println("unten")
         mitte = (leftTop+diff) + diff/2
     }
-    val wert = Math.abs(input3-mitte)
+    val wert = Math.abs(input3 -mitte)
     println(wert + idx)
 
 

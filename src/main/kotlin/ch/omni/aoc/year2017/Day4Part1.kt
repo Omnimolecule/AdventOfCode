@@ -1,3 +1,5 @@
+package ch.omni.aoc.year2017
+
 val input4 = ""/*"bdwdjjo avricm cjbmj ran lmfsom ivsof\n" +
         "mxonybc fndyzzi gmdp gdfyoi inrvhr kpuueel wdpga vkq\n" +
         "bneh ylltsc vhryov lsd hmruxy ebnh pdln vdprrky\n" +

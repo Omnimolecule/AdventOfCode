@@ -1,3 +1,5 @@
+package ch.omni.aoc.year2017
+
 fun main(args: Array<String>) {
     val inputs = input4.split("\n")
     var result = inputs.size

@@ -1,3 +1,5 @@
+package ch.omni.aoc.year2017
+
 val test5 = "0\n" +
         "3\n" +
         "0\n" +
