@@ -1,3 +1,5 @@
+package ch.omni.aoc.year2017
+
 val testInput2 = "5\t9\t2\t8\n" +
         "9\t4\t7\t3\n" +
         "3\t8\t6\t5"

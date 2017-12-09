@@ -1,10 +1,14 @@
+package ch.omni.aoc.year2017
+
+import readFile
+
 object Day7 {
 
     fun start(){
         //Part 1
         val input = readFile(7)
         val nodes = getNodes(input)
-        val parent:Node = nodes.filter { it.value.parent == null}.entries.first().value
+        val parent: Node = nodes.filter { it.value.parent == null}.entries.first().value
         println(parent.name)
         //Part 2
         val problemNode = parent.findUnbalancedProgram()
@@ -15,7 +19,7 @@ object Day7 {
         }
     }
 
-    fun getValueNode(regex: Regex, parts: List<String>, nodes: MutableMap<String, Node>):Node {
+    fun getValueNode(regex: Regex, parts: List<String>, nodes: MutableMap<String, Node>): Node {
         val groups = regex.matchEntire(parts[0])?.groups
         val name = groups?.get(1)?.value
         val value = groups?.get(2)?.value?.toInt()
@@ -63,7 +67,7 @@ object Day7 {
         return nodes
     }
 
-    fun getUnbalancedChild(problemNode:Node):Pair<Node, Int> {
+    fun getUnbalancedChild(problemNode: Node):Pair<Node, Int> {
         var valueCorr = 0
         var valueWrong = 0
         for (child in problemNode.children){
@@ -81,7 +85,7 @@ object Day7 {
         return Pair(problemNode.children.find{it.newValue == valueWrong}!!, valueCorr)
     }
 
-    fun calculateCorrectValueForProblemChild(problemChild:Node, correctValue:Int):Int{
+    fun calculateCorrectValueForProblemChild(problemChild: Node, correctValue:Int):Int{
         var childValue = 0
         for (child in problemChild.children){
             childValue += child.newValue
@@ -94,11 +98,11 @@ fun main(args: Array<String>) {
 }
 
 class Node(var value: Int, var name: String) {
-    var parent:Node? = null
+    var parent: Node? = null
     var children:MutableList<Node> = mutableListOf()
     var newValue = 0
 
-    fun findUnbalancedProgram():Node? {
+    fun findUnbalancedProgram(): Node? {
         if (children.size == 0){
             newValue = value
             return null

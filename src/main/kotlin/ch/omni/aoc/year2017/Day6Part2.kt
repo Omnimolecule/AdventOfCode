@@ -1,7 +1,8 @@
-
+package ch.omni.aoc.year2017
 fun main(args: Array<String>) {
     val first:Array<Int> = arrayOf(14,0,15,12,11,11,3,5,1,6,8,4,9,1,8,4)
     val set:MutableSet<String> = mutableSetOf(first.joinToString(","))
+    val map:MutableMap<String, Int> = mutableMapOf(Pair(first.joinToString(","),0))
 
     val n = first.size
     var notFound = true
@@ -30,7 +31,18 @@ fun main(args: Array<String>) {
         }
 
         numOf++
+        increaseCounter(map)
         notFound = set.add(first.joinToString(","))
+        if (notFound){
+            map.put(first.joinToString(","), 0)
+        }
     }
+    println(map.get(first.joinToString(",")))
     println(numOf)
+}
+
+private fun increaseCounter(map:MutableMap<String, Int>){
+    for ((key,value) in map.entries){
+        map.put(key, value+1)
+    }
 }

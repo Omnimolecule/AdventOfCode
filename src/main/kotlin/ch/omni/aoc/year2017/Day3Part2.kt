@@ -1,3 +1,5 @@
+package ch.omni.aoc.year2017
+
 fun main(args: Array<String>) {
     val map:MutableMap<Pair<Int, Int>, Int> = mutableMapOf()
     var found = false

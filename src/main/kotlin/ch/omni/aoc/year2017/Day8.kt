@@ -1,3 +1,7 @@
+package ch.omni.aoc.year2017
+
+import readFile
+
 fun main(args: Array<String>) {
     val registers: MutableMap<String, Int> = mutableMapOf()
     val input = readFile(8)
