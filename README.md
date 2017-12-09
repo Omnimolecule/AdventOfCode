@@ -1,2 +1,2 @@
 # AdventOfCode
-#NoCleanCode
+#NoCleanCode #LearnKotlin #HaveFun
