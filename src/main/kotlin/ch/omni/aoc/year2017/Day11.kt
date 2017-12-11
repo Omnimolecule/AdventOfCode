@@ -8,14 +8,14 @@ import readFile
  */
 object Day11 {
 
-    fun start(){
+    fun start() {
         val input = readFile(11)
         val directions = input.split(",")
         var y = 0
         var x = 0
         var max = 0
-        for (direction in directions){
-            when(direction) {
+        for (direction in directions) {
+            when (direction) {
                 "n" -> y++
                 "ne" -> {
                     y++
@@ -29,13 +29,13 @@ object Day11 {
                 }
                 "nw" -> x++
             }
-            val z = 0-x-y
-            val tempMax = (listOf(Math.abs(x), Math.abs(y), Math.abs(z)).max())?:0
+            val z = 0 - x - y
+            val tempMax = (listOf(Math.abs(x), Math.abs(y), Math.abs(z)).max()) ?: 0
             if (tempMax > max) {
                 max = tempMax
             }
         }
-        val z = 0-x-y
+        val z = 0 - x - y
         println((listOf(Math.abs(x), Math.abs(y), Math.abs(z)).max()))
         println(max)
     }

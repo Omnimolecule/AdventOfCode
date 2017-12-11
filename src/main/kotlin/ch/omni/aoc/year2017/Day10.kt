@@ -12,25 +12,25 @@ object Day10 {
 
     fun part1() {
         val hash = listOf(0..255).flatten().toMutableList()
-        val inputLength = input.split(",").map{it.toInt()}
+        val inputLength = input.split(",").map { it.toInt() }
         doOneRound(hash, inputLength, 0, 0)
         println(hash.get(0) * hash.get(1))
     }
 
-    fun part2(){
+    fun part2() {
         val hash = listOf(0..255).flatten().toMutableList()
-        val inputLength = input.toCharArray().map{it.toInt()}.toMutableList()
-        inputLength.addAll(mutableListOf(17,31,73,47,23))
+        val inputLength = input.toCharArray().map { it.toInt() }.toMutableList()
+        inputLength.addAll(mutableListOf(17, 31, 73, 47, 23))
         var idx = 0
         var skipSize = 0
-        for (i in 0..63){
+        for (i in 0..63) {
             val result = doOneRound(hash, inputLength, idx, skipSize)
             idx = result.first
             skipSize = result.second
         }
         val denseHash = mutableListOf<Int>()
         var index = 0
-        for (i in 0..15){
+        for (i in 0..15) {
             var res = 0
             for (j in 0..15) {
                 res = res xor hash.get(index)
@@ -38,7 +38,7 @@ object Day10 {
             }
             denseHash.add(res)
         }
-        println(denseHash.map{
+        println(denseHash.map {
             if (it.toString(16).length < 2) {
                 "0" + it.toString(16)
             } else {
@@ -47,7 +47,7 @@ object Day10 {
         }.joinToString(""))
     }
 
-    private fun doOneRound(hash: MutableList<Int>, inputLength: List<Int>, idx: Int, skipSize: Int):Pair<Int, Int> {
+    private fun doOneRound(hash: MutableList<Int>, inputLength: List<Int>, idx: Int, skipSize: Int): Pair<Int, Int> {
         var idx1 = idx
         var skipSize1 = skipSize
         for (length in inputLength) {

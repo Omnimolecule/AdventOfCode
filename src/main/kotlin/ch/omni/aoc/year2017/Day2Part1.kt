@@ -23,9 +23,9 @@ fun main(args: Array<String>) {
     for (row in rows) {
         var highest = 0
         var lowest = Int.MAX_VALUE
-        for (cell in row.split("\t")){
+        for (cell in row.split("\t")) {
             val cellInt = cell.toInt()
-            if (cellInt > highest){
+            if (cellInt > highest) {
                 highest = cell.toInt()
             }
             if (cellInt < lowest) {

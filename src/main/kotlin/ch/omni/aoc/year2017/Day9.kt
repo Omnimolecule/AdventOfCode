@@ -4,7 +4,7 @@ import readFile
 import java.util.*
 
 object Day9 {
-    val stack:Stack<Char> = Stack()
+    val stack: Stack<Char> = Stack()
     var garbage = false
     var ignoreNext = false
     var counter = 0
@@ -13,10 +13,10 @@ object Day9 {
     fun start() {
         val input = readFile(9)
         //val input = "<<<<>"
-        for (character in input){
-            if (!ignoreNext){
-                if (!garbage){
-                    when(character){
+        for (character in input) {
+            if (!ignoreNext) {
+                if (!garbage) {
+                    when (character) {
                         '{' -> {
                             stack.push(character)
                             counter += stack.size
@@ -26,7 +26,7 @@ object Day9 {
                         '!' -> ignoreNext = true
                     }
                 } else {
-                    when(character){
+                    when (character) {
                         '>' -> garbage = false
                         '!' -> ignoreNext = true
                         else -> garbageCounter++
