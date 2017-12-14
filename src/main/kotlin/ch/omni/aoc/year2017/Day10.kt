@@ -18,26 +18,8 @@ object Day10 {
     }
 
     fun part2() {
-        val hash = listOf(0..255).flatten().toMutableList()
         val inputLength = input.toCharArray().map { it.toInt() }.toMutableList()
-        inputLength.addAll(mutableListOf(17, 31, 73, 47, 23))
-        var idx = 0
-        var skipSize = 0
-        for (i in 0..63) {
-            val result = doOneRound(hash, inputLength, idx, skipSize)
-            idx = result.first
-            skipSize = result.second
-        }
-        val denseHash = mutableListOf<Int>()
-        var index = 0
-        for (i in 0..15) {
-            var res = 0
-            for (j in 0..15) {
-                res = res xor hash.get(index)
-                index++
-            }
-            denseHash.add(res)
-        }
+        val denseHash = makeKnotHash(inputLength)
         println(denseHash.map {
             if (it.toString(16).length < 2) {
                 "0" + it.toString(16)
@@ -69,6 +51,31 @@ object Day10 {
             skipSize1++
         }
         return Pair(idx1, skipSize1)
+    }
+
+    fun makeKnotHash(inputLengthP: List<Int>): MutableList<Int> {
+        val hash = listOf(0..255).flatten().toMutableList()
+        val inputLength:MutableList<Int> = inputLengthP.toMutableList()
+        inputLength.addAll(mutableListOf(17, 31, 73, 47, 23))
+        var idx = 0
+        var skipSize = 0
+        for (i in 0..63) {
+            val result = doOneRound(hash, inputLength, idx, skipSize)
+            idx = result.first
+            skipSize = result.second
+        }
+        val denseHash = mutableListOf<Int>()
+        var index = 0
+        for (i in 0..15) {
+            var res = 0
+            for (j in 0..15) {
+                res = res xor hash.get(index)
+                index++
+            }
+            denseHash.add(res)
+        }
+
+        return denseHash
     }
 }
 
