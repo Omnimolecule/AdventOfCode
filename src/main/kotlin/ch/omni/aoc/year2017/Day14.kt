@@ -1,6 +1,6 @@
 package ch.omni.aoc.year2017
 
-object Day13 {
+object Day14 {
     val originalInput = "wenycdww"
 
 
@@ -21,5 +21,5 @@ object Day13 {
 }
 
 fun main(args: Array<String>) {
-    Day13.start()
+    Day14.start()
 }
