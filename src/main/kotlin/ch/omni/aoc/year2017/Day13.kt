@@ -6,17 +6,27 @@ object Day13 {
     fun start() {
         val input = readFile(13).split("\n")
         val firewalls = input.map { it.split(": ") }.associateBy({ it.get(0).toInt() }, { Firewall(it.get(0).toInt(),it.get(1).toInt()) })
-        var severity = 0
-        for (i in 0..firewalls.keys.last()) {
-            val firewall = firewalls.get(i)
-
-            if (firewall != null && firewall.position == 0){
-                severity += firewall.depth * firewall.layer
+        var severity = Int.MAX_VALUE
+        var delay = 10
+        while (severity != 0){
+            firewalls.forEach { it.value.position = 0 }
+            for (i in 0..(delay-1)){
+                firewalls.forEach { it.value.plusOne() }
             }
-            firewalls.forEach { it.value.plusOne() }
+            severity = 0
+            for (i in 0..firewalls.keys.last()) {
+                val firewall = firewalls.get(i)
+
+                if (firewall != null && firewall.position == 0){
+                    severity += firewall.depth * firewall.layer
+                }
+                firewalls.forEach { it.value.plusOne() }
+            }
+            println(delay)
+            delay++
         }
 
-        println(severity)
+        println(delay)
     }
 }
 
