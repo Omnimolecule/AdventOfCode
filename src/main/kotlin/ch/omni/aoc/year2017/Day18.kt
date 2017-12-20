@@ -37,7 +37,7 @@ object Day18 {
                     registers.put(parts[1], first * second)
                 }
                 "mod" -> {
-                    if (second > 0){
+                    if (second.compareTo(BigDecimal.ZERO) >= 0){
                         registers.put(parts[1], first%second)
                     }
                 }
