@@ -8,9 +8,14 @@ object Day18 {
     fun start() {
         val input = readFile(18)
         val commands = input.split("\n")
+        part1(commands)
+    }
+
+    fun part1(commands:List<String>){
         val registers: MutableMap<String, BigDecimal> = mutableMapOf()
         var frequency = BigDecimal.ZERO
         var i = 0
+
         while (i < commands.size) {
             println(commands[i])
             val parts = commands[i].split(" ")
@@ -61,7 +66,23 @@ object Day18 {
             if(jump) continue
             i++
         }
+    }
 
+    fun part2(commands:List<String>) {
+        val registers0: MutableMap<String, BigDecimal> = mutableMapOf()
+        val registers1: MutableMap<String, BigDecimal> = mutableMapOf()
+        var frequency0 = BigDecimal.ZERO
+        var frequency1 = BigDecimal.ZERO
+
+        var idx1 = 0
+        var idx2 = 0
+
+        while(idx1 < commands.size || idx2 < commands.size){
+
+        }
+    }
+
+    fun runUntilStop(registers: MutableMap<String, BigDecimal>):BigDecimal {
 
     }
 }
