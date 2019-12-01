@@ -82,9 +82,6 @@ object Day18 {
         }
     }
 
-    fun runUntilStop(registers: MutableMap<String, BigDecimal>):BigDecimal {
-
-    }
 }
 
 fun main(args: Array<String>) {
