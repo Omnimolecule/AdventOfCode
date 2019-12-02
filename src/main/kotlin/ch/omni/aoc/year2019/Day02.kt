@@ -7,30 +7,45 @@ object Day02 {
     fun start() {
         val input = readFile(2019, 2)
         println(part1(input))
+        println(part2(input))
     }
 
     fun part1(input: String): Int {
         val inputSeq = input.split(",").map{it.toInt()}.toMutableList()
-        inputSeq[1] = 12
-        inputSeq[2] = 2
-        for (i in 0 until inputSeq.size step 4) {
-            val opcode = inputSeq[i]
-            if (opcode == 99) return inputSeq[0]
-            val val1 = inputSeq[i+1]
-            val val2 = inputSeq[i+2]
-            val res = inputSeq[i+3]
-            inputSeq[res] = when (opcode) {
-                1 -> inputSeq[val1] + inputSeq[val2]
-                2 -> inputSeq[val1] * inputSeq[val2]
-                else -> return -1
+        val outputSeq = calculate(inputSeq, 12,2)
+        return outputSeq[0]
+    }
+
+    fun calculate(input: List<Int>, verb: Int, noun: Int): List<Int> {
+        val newList = input.map{it}.toMutableList()
+        newList[1] = verb
+        newList[2] = noun
+        for (i in 0 until newList.size step 4) {
+            val opcode = newList[i]
+            if (opcode == 99) return newList
+            val val1 = newList[i+1]
+            val val2 = newList[i+2]
+            val res = newList[i+3]
+            newList[res] = when (opcode) {
+                1 -> newList[val1] + newList[val2]
+                2 -> newList[val1] * newList[val2]
+                else -> return newList
             }
-
         }
-
-        return 0
+        return listOf()
     }
 
     fun part2(input: String):Int {
+        val inputSeq = input.split(",").map{it.toInt()}
+        for (noun in 0 .. 99) {
+            for (verb in 0 .. 99) {
+                val result = calculate(inputSeq, noun, verb)
+                if (result[0] == 19690720) {
+                    println("noun $noun, verb $verb")
+                    return 100 * noun + verb
+                }
+            }
+        }
         return 0
     }
 
