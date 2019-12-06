@@ -6,15 +6,7 @@ object Day05 {
 
     fun start() {
         val input = readFile(2019, 5).split(",").map { it.toInt() }
-        part1(input)
-    }
-
-    fun part1(inputList: List<Int>) {
-        calculate(inputList)
-    }
-
-    fun part2() {
-
+        calculate(input)
     }
 
     fun calculate(input: List<Int>): List<Int> {
@@ -79,6 +71,58 @@ object Day05 {
                     println("Output: ${firstParam}")
                     i += 2
                 }
+                5 -> {
+                    val val1 = newList[i + 1]
+                    val val2 = newList[i + 2]
+                    val firstParam = getParameter(modeParam1, newList, val1)
+                    val secondParam = getParameter(modeParam2, newList, val2)
+                    if (firstParam > 0) {
+                        i = secondParam
+                    } else {
+                        i += 3
+                    }
+                }
+                6 -> {
+                    val val1 = newList[i + 1]
+                    val val2 = newList[i + 2]
+                    val firstParam = getParameter(modeParam1, newList, val1)
+                    val secondParam = getParameter(modeParam2, newList, val2)
+                    if (firstParam == 0) {
+                        i = secondParam
+                    } else {
+                        i += 3
+                    }
+                }
+                7 -> {
+                    val val1 = newList[i + 1]
+                    val val2 = newList[i + 2]
+                    val res = newList[i + 3]
+                    val firstParam = getParameter(modeParam1, newList, val1)
+                    val secondParam = getParameter(modeParam2, newList, val2)
+                    if (modeParam3 == 1) {
+                        error("write instructions can never be in immediate mode")
+                    }
+                    newList[res] = when {
+                        firstParam < secondParam -> 1
+                        else -> 0
+                    }
+                    i += 4
+                }
+                8 -> {
+                    val val1 = newList[i + 1]
+                    val val2 = newList[i + 2]
+                    val res = newList[i + 3]
+                    val firstParam = getParameter(modeParam1, newList, val1)
+                    val secondParam = getParameter(modeParam2, newList, val2)
+                    if (modeParam3 == 1) {
+                        error("write instructions can never be in immediate mode")
+                    }
+                    newList[res] = when (firstParam) {
+                        secondParam -> 1
+                        else -> 0
+                    }
+                    i += 4
+                }
                 else -> {
                     println("Done $opcode")
                     return newList
@@ -104,7 +148,15 @@ object Day05 {
     }
 
     fun test2() {
-
+        /*calculate(listOf(3,9,8,9,10,9,4,9,99,-1,8))
+        calculate(listOf(3,9,7,9,10,9,4,9,99,-1,8))
+        calculate(listOf(3,3,1108,-1,8,3,4,3,99))
+        calculate(listOf(3,3,1107,-1,8,3,4,3,99))
+        calculate(listOf(3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9))
+        calculate(listOf(3,3,1105,-1,9,1101,0,0,12,4,12,99,1))*/
+        calculate(listOf(3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006, 20, 31,
+                1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20, 1105, 1, 46, 104,
+                999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99))
     }
 }
 
