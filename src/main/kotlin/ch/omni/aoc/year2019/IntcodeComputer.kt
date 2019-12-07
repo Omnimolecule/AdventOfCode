@@ -1,137 +1,140 @@
 package ch.omni.aoc.year2019
 
-object IntcodeComputer {
+class IntcodeComputer(input: List<Int>, verb: Int? = null, noun: Int? = null, val manualMode: Boolean = false, val returnOnOutput: Boolean = false) {
+    private val stateList = input.toMutableList()
+    private val inputList = mutableListOf<Int>()
+    private val outList = mutableListOf<Int>()
+    private var inputIdx = 0
+    private var instPointer = 0
+    var isDone = false
 
-    fun calculate(input: List<Int>): Pair<List<Int>, List<Int>> {
-        return calculate(input, null, null)
-    }
-
-    fun calculate(input: List<Int>, inputs: List<Int>): Pair<List<Int>, List<Int>> {
-        return calculate(input, null, null, inputs)
-    }
-
-    fun calculate(input: List<Int>, verb: Int?, noun: Int?, inputs: List<Int> = listOf()): Pair<List<Int>, List<Int>> {
-        val newList = input.map { it }.toMutableList()
-        val outList = mutableListOf<Int>()
-        var inputIdx = 0
-
+    init {
         if (verb != null) {
-            newList[1] = verb
+            stateList[1] = verb
         }
         if (noun != null) {
-            newList[2] = noun
+            stateList[2] = noun
         }
-        var i = 0
-        while (i < newList.size) {
-            val instruction = newList[i]
+    }
+
+    fun calculate(inputs: List<Int> = listOf()): Pair<List<Int>, List<Int>> {
+        if (isDone) {
+            return Pair(stateList, listOf())
+        }
+        inputList.addAll(inputs)
+        while (instPointer < stateList.size) {
+            val instruction = stateList[instPointer]
             val opcode = instruction % 100
             val modeParam1 = (instruction / 100) % 10
             val modeParam2 = (instruction / 1000) % 10
             val modeParam3 = (instruction / 10000) % 10
-            if (opcode == 99) return Pair(newList, outList)
 
             when (opcode) {
                 99 -> {
                     println("Done 99")
-                    return Pair(newList, outList)
+                    isDone = true
+                    return Pair(stateList, outList)
                 }
                 1 -> {
-                    val val1 = newList[i + 1]
-                    val val2 = newList[i + 2]
-                    val res = newList[i + 3]
-                    val firstParam = getParameter(modeParam1, newList, val1)
-                    val secondParam = getParameter(modeParam2, newList, val2)
+                    val val1 = stateList[instPointer + 1]
+                    val val2 = stateList[instPointer + 2]
+                    val res = stateList[instPointer + 3]
+                    val firstParam = getParameter(modeParam1, stateList, val1)
+                    val secondParam = getParameter(modeParam2, stateList, val2)
                     if (modeParam3 == 1) {
                         error("write instructions can never be in immediate mode")
                     }
-                    newList[res] = firstParam + secondParam
-                    i += 4
+                    stateList[res] = firstParam + secondParam
+                    instPointer += 4
                 }
                 2 -> {
-                    val val1 = newList[i + 1]
-                    val val2 = newList[i + 2]
-                    val res = newList[i + 3]
-                    val firstParam = getParameter(modeParam1, newList, val1)
-                    val secondParam = getParameter(modeParam2, newList, val2)
+                    val val1 = stateList[instPointer + 1]
+                    val val2 = stateList[instPointer + 2]
+                    val res = stateList[instPointer + 3]
+                    val firstParam = getParameter(modeParam1, stateList, val1)
+                    val secondParam = getParameter(modeParam2, stateList, val2)
                     if (modeParam3 == 1) {
                         error("write instructions can never be in immediate mode")
                     }
-                    newList[res] = firstParam * secondParam
-                    i += 4
+                    stateList[res] = firstParam * secondParam
+                    instPointer += 4
                 }
                 3 -> {
-                    val val1 = newList[i + 1]
-                    if (inputs.isNotEmpty()) {
-                        newList[val1] = inputs[inputIdx]
+                    val val1 = stateList[instPointer + 1]
+                    if (!manualMode) {
+                        stateList[val1] = inputList[inputIdx]
                         inputIdx++
                     } else {
                         println("Input please:")
-                        newList[val1] = readLine()!!.toInt()
+                        stateList[val1] = readLine()!!.toInt()
                     }
-                    i += 2
+                    instPointer += 2
                 }
                 4 -> {
-                    val val1 = newList[i + 1]
-                    val firstParam = getParameter(modeParam1, newList, val1)
+                    val val1 = stateList[instPointer + 1]
+                    val firstParam = getParameter(modeParam1, stateList, val1)
                     outList.add(firstParam)
                     println("Output: ${firstParam}")
-                    i += 2
+                    instPointer += 2
+                    if (returnOnOutput) {
+                        return Pair(stateList, outList)
+                    }
                 }
                 5 -> {
-                    val val1 = newList[i + 1]
-                    val val2 = newList[i + 2]
-                    val firstParam = getParameter(modeParam1, newList, val1)
-                    val secondParam = getParameter(modeParam2, newList, val2)
+                    val val1 = stateList[instPointer + 1]
+                    val val2 = stateList[instPointer + 2]
+                    val firstParam = getParameter(modeParam1, stateList, val1)
+                    val secondParam = getParameter(modeParam2, stateList, val2)
                     if (firstParam > 0) {
-                        i = secondParam
+                        instPointer = secondParam
                     } else {
-                        i += 3
+                        instPointer += 3
                     }
                 }
                 6 -> {
-                    val val1 = newList[i + 1]
-                    val val2 = newList[i + 2]
-                    val firstParam = getParameter(modeParam1, newList, val1)
-                    val secondParam = getParameter(modeParam2, newList, val2)
+                    val val1 = stateList[instPointer + 1]
+                    val val2 = stateList[instPointer + 2]
+                    val firstParam = getParameter(modeParam1, stateList, val1)
+                    val secondParam = getParameter(modeParam2, stateList, val2)
                     if (firstParam == 0) {
-                        i = secondParam
+                        instPointer = secondParam
                     } else {
-                        i += 3
+                        instPointer += 3
                     }
                 }
                 7 -> {
-                    val val1 = newList[i + 1]
-                    val val2 = newList[i + 2]
-                    val res = newList[i + 3]
-                    val firstParam = getParameter(modeParam1, newList, val1)
-                    val secondParam = getParameter(modeParam2, newList, val2)
+                    val val1 = stateList[instPointer + 1]
+                    val val2 = stateList[instPointer + 2]
+                    val res = stateList[instPointer + 3]
+                    val firstParam = getParameter(modeParam1, stateList, val1)
+                    val secondParam = getParameter(modeParam2, stateList, val2)
                     if (modeParam3 == 1) {
                         error("write instructions can never be in immediate mode")
                     }
-                    newList[res] = when {
+                    stateList[res] = when {
                         firstParam < secondParam -> 1
                         else -> 0
                     }
-                    i += 4
+                    instPointer += 4
                 }
                 8 -> {
-                    val val1 = newList[i + 1]
-                    val val2 = newList[i + 2]
-                    val res = newList[i + 3]
-                    val firstParam = getParameter(modeParam1, newList, val1)
-                    val secondParam = getParameter(modeParam2, newList, val2)
+                    val val1 = stateList[instPointer + 1]
+                    val val2 = stateList[instPointer + 2]
+                    val res = stateList[instPointer + 3]
+                    val firstParam = getParameter(modeParam1, stateList, val1)
+                    val secondParam = getParameter(modeParam2, stateList, val2)
                     if (modeParam3 == 1) {
                         error("write instructions can never be in immediate mode")
                     }
-                    newList[res] = when (firstParam) {
+                    stateList[res] = when (firstParam) {
                         secondParam -> 1
                         else -> 0
                     }
-                    i += 4
+                    instPointer += 4
                 }
                 else -> {
                     println("Done $opcode")
-                    return Pair(newList, outList)
+                    return Pair(stateList, outList)
                 }
             }
         }
