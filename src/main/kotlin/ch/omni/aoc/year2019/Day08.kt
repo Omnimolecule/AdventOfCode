@@ -7,6 +7,7 @@ object Day08 {
     fun start() {
         val input = readFile(2019, 8)
         part1(input, 25, 6)
+        part2(input, 25, 6)
     }
 
     fun part1(input: String, width: Int, height: Int) {
@@ -29,9 +30,31 @@ object Day08 {
         println(result)
     }
 
+    fun part2(input: String, width: Int, height: Int) {
+        val layerSize = width * height
+        val layerGroups: MutableList<Char> = MutableList(layerSize) { '2' }
+        for ((idx, char) in input.toCharArray().withIndex()) {
+            val pixelIdx = idx % layerSize
+            if (layerGroups[pixelIdx] != '0' && layerGroups[pixelIdx] != '1') {
+                layerGroups[pixelIdx] = char
+            }
+            if (layerGroups.filter { it == '2' }.isEmpty()) {
+                break
+            }
+        }
+        for (i in 0 until layerSize step width) {
+            println(layerGroups.subList(i, i + width).joinToString("").replace("1", "\u2591\u2591").replace("0", "  "))
+        }
+    }
+
     fun test1() {
         val input = "123456789012"
         part1(input, 3, 2)
+    }
+
+    fun test2() {
+        val input = "0222112222120000"
+        part2(input, 2, 2)
     }
 }
 
