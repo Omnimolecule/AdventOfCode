@@ -7,10 +7,15 @@ object Day09 {
     fun start() {
         val input = readFile(2019, 9).split(",").map { it.toLong() }
         part1(input)
+        part2(input)
     }
 
     fun part1(input: List<Long>) {
-        IntcodeComputerV4(input, manualMode = true).calculate()
+        IntcodeComputerV4(input).calculate(listOf(1))
+    }
+
+    fun part2(input: List<Long>) {
+        IntcodeComputerV4(input).calculate(listOf(2))
     }
 
     fun test1() {
