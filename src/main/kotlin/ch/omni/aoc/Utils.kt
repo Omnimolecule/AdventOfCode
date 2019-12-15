@@ -34,3 +34,7 @@ fun gcd(a: Int, b: Int): Int {
 
     return newA.absoluteValue
 }
+
+fun distanceBetweenTwoPoints(x1: Int, y1: Int, x2: Int, y2: Int): Double {
+    return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)).toDouble())
+}
